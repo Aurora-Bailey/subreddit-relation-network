@@ -2,7 +2,7 @@
   <v-app light>
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list>
-        <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in items" exact>
+        <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in drawer_links" exact>
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>
@@ -12,10 +12,15 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :scroll-threshold="50" scroll-off-screen fixed app>
+    <v-toolbar v-if="!searching" :scroll-threshold="50" scroll-off-screen fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-toolbar-title v-text="title" class="ml-3 mr-3"></v-toolbar-title>
+      <v-spacer class="hidden-sm-and-up"></v-spacer>
+      <v-text-field flat solo-inverted prepend-icon="search" label="Find Subreddit" class="hidden-xs-only ml-4 mr-4"></v-text-field>
+      <v-btn class="hidden-sm-and-up" @click="searching = true" icon><v-icon>search</v-icon></v-btn>
+    </v-toolbar>
+    <v-toolbar v-if="searching" fixed app>
+      <v-text-field flat solo-inverted append-icon="close" :append-icon-cb="() => {searching = false}" label="Find Subreddit" class="ml-2 mr-2"></v-text-field>
     </v-toolbar>
     <v-content>
       <v-container>
@@ -39,17 +44,14 @@
   export default {
     data () {
       return {
-        clipped: false,
         drawer: false,
-        fixed: false,
-        items: [
+        searching: false,
+        drawer_links: [
           { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
+          { icon: 'bubble_chart', title: 'Longpage', to: '/longpage' }
         ],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
-        title: 'Vuetify.js'
+        title: 'Related Subreddits'
       }
     }
   }
