@@ -89,6 +89,10 @@ class Gen {
         Object.keys(subreddits).forEach(sub => {
           subs_array.push({sub, num_users: subreddits[sub]})
         })
+        subs_array.sort((a, b) => {
+          if (a.num_users == b.num_users) return 0
+          return a.num_users > b.num_users ? 1 : -1
+        })
         resolve(subs_array)
       }).catch(err => {reject(err)})
     })
