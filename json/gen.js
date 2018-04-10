@@ -13,7 +13,7 @@ class Gen {
     this.clearDatabase().then(() => {
       this.writeSubredditsToNuxtRoutes().then(() => {
         this.usersToSubreddits().then(x => {
-          console.log(x)
+          fs.writeFileSync('dump.txt', JSON.stringify(x.programming))
           console.log('done!')
           mongo.close()
         }).catch(err => {console.error(err)})
@@ -81,17 +81,7 @@ class Gen {
   //   })
   // }
 
-  subNetwork () {
-    return new Promise((resolve, reject) => {
-      this.commentsToUsers().then(users => {
-        this.usersToSubreddits().then(popular => {
-          resolve(popular)
-        }).catch(err => {reject(err)})
-      }).catch(err => {reject(err)})
-    })
-  }
-
-  // {sports: { subreddit: 'sports', subscribers: 538, users_avg_other_subs: 6.897435897435898 }, {...}}
+  // {sports: { subreddit: 'sports', subscribers: 538, crosscomment: {gifs: { subreddit: 'gifs', commenters: 334}, {...}}, avg_commenters_in_other_subs: 6.897435897435898 }, {...}}
   usersToSubreddits () {
     return new Promise((resolve, reject) => {
       this.commentsToUsers().then(users => {
@@ -100,15 +90,31 @@ class Gen {
         Object.keys(users).forEach(username => {
           let user = users[username]
           user.subreddits.forEach(subreddit => {
-            if (!subreddits_object[subreddit]) subreddits_object[subreddit] = {subreddit, commenters: 0}
+            if (!subreddits_object[subreddit]) subreddits_object[subreddit] = {subreddit, commenters: 0, crosscomment: {}}
             subreddits_object[subreddit].commenters++
+            user.subreddits.forEach(sr => {
+              if (sr == subreddit) return false
+              if (!subreddits_object[subreddit].crosscomment[sr]) subreddits_object[subreddit].crosscomment[sr] = {subreddit: sr, commenters: 0}
+              subreddits_object[subreddit].crosscomment[sr].commenters++
+            })
           })
         })
+
+        // add avg_commenters_in_other_subs
         let subreddits_object_keys = Object.keys(subreddits_object)
         let num_subreddits = subreddits_object_keys.length
         subreddits_object_keys.forEach(subreddit => {
           subreddits_object[subreddit].avg_commenters_in_other_subs = subreddits_object[subreddit].commenters / (num_subreddits -1)
         })
+
+        // add crosscomment significance
+        subreddits_object_keys.forEach(subreddit => {
+          Object.keys(subreddits_object[subreddit].crosscomment).forEach(cross_subreddit => {
+            let significance = subreddits_object[subreddit].crosscomment[cross_subreddit].commenters / subreddits_object[cross_subreddit].avg_commenters_in_other_subs
+            subreddits_object[subreddit].crosscomment[cross_subreddit].significance = significance
+          })
+        })
+        // same person can point back from multiple subs
         resolve(subreddits_object)
       }).catch(err => {reject(err)})
     })
