@@ -12,7 +12,7 @@ class Gen {
   run () {
     this.clearDatabase().then(() => {
       this.writeSubredditsToNuxtRoutes().then(() => {
-        this.userSubsToSubPopularity().then(x => {
+        this.usersToSubreddits().then(x => {
           console.log(x)
           console.log('done!')
           mongo.close()
@@ -74,55 +74,70 @@ class Gen {
   //   })
   // }
 
-  // [{sub: 'subreddit', num_users: 123}]
-  userSubsToSubPopularity () {
+  // subNetwork () {
+  //   return new Promise((resolve, reject) => {
+  //     this.commentsToUsers().then(users => {
+  //     }).catch(err => {reject(err)})
+  //   })
+  // }
+
+  subNetwork () {
     return new Promise((resolve, reject) => {
-      this.commentsToUserSubs().then(user_subs => {
-        let subs_array = []
-        let subreddits = {}
-        user_subs.forEach(user => {
-          user.subs.forEach(sub => {
-            if (!subreddits[sub]) subreddits[sub] = 0
-            subreddits[sub]++
+      this.commentsToUsers().then(users => {
+        this.usersToSubreddits().then(popular => {
+          resolve(popular)
+        }).catch(err => {reject(err)})
+      }).catch(err => {reject(err)})
+    })
+  }
+
+  // {sports: { subreddit: 'sports', subscribers: 538, users_avg_other_subs: 6.897435897435898 }, {...}}
+  usersToSubreddits () {
+    return new Promise((resolve, reject) => {
+      this.commentsToUsers().then(users => {
+        let subreddits_object = {}
+
+        Object.keys(users).forEach(username => {
+          let user = users[username]
+          user.subreddits.forEach(subreddit => {
+            if (!subreddits_object[subreddit]) subreddits_object[subreddit] = {subreddit, commenters: 0}
+            subreddits_object[subreddit].commenters++
           })
         })
-        Object.keys(subreddits).forEach(sub => {
-          subs_array.push({sub, num_users: subreddits[sub]})
+        let subreddits_object_keys = Object.keys(subreddits_object)
+        let num_subreddits = subreddits_object_keys.length
+        subreddits_object_keys.forEach(subreddit => {
+          subreddits_object[subreddit].avg_commenters_in_other_subs = subreddits_object[subreddit].commenters / (num_subreddits -1)
         })
-        subs_array.sort((a, b) => {
-          if (a.num_users == b.num_users) return 0
-          return a.num_users > b.num_users ? 1 : -1
-        })
-        resolve(subs_array)
+        resolve(subreddits_object)
       }).catch(err => {reject(err)})
     })
   }
 
-  // [{user: 'username', subs: ['subreddit', 'subs']}]
-  commentsToUserSubs () {
+  // {Snoo: { username: 'Snoo', subreddits: [ 'askscience', 'AskReddit' ] }, {...}}
+  commentsToUsers () {
     return new Promise((resolve, reject) => {
       this.pullComments().then(comments => {
-        let username_subreddits = []
         let users_object = {}
-
         comments.forEach(comment => {
-          if (!users_object[comment.author]) users_object[comment.author] = {}
-          users_object[comment.author][comment.subreddit] = true
+          if (!users_object[comment.author]) users_object[comment.author] = {username: comment.author, subreddits: {}}
+          users_object[comment.author]['subreddits'][comment.subreddit] = true
         })
+        // users_object == {username: {username: 'username', subreddits: {asdf: true, qwer: true}}, {...}}
         Object.keys(users_object).forEach(user => {
-          let subreddits = Object.keys(users_object[user])
-          username_subreddits.push({user, subs: subreddits})
+          // convert subreddits from object to array
+          users_object[user].subreddits = Object.keys(users_object[user].subreddits)
+          // remove users with only one subscription
+          if (users_object[user].subreddits.length < 2) delete users_object[user]
         })
+        // users_object == {username: {username: 'username', subreddits: ['asdf', 'qwer']}, {...}}
 
-        // filter out single subreddit users
-        username_subreddits = username_subreddits.filter(user => user.subs.length > 1)
-
-        resolve(username_subreddits)
+        resolve(users_object)
       }).catch(err => {reject(err)})
     })
   }
 
-  // [{author: 'username', subreddit: 'subreddit'}]
+  // [{author: 'Snoo', subreddit: 'AskReddit'}]
   pullComments () {
     return new Promise((resolve, reject) => {
       if (this.comment_cache) {
