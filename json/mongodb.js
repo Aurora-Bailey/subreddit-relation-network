@@ -1,9 +1,9 @@
 const MongoClient = require('mongodb').MongoClient
 
 class Mongo {
-  constructor() {
+  constructor(dbName) {
     this._url = 'mongodb://localhost:27017'
-    this._dbName = 'crawl-reddit-user-comments'
+    this._dbName = dbName
     this._db = false
     this._client = false
   }
@@ -31,4 +31,4 @@ class Mongo {
   }
 }
 
-module.exports = new Mongo()
+module.exports = Mongo
