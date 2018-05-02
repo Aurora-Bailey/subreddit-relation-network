@@ -23,9 +23,7 @@
       <v-text-field flat solo-inverted append-icon="close" :append-icon-cb="() => {searching = false}" label="Find Subreddit" class="ml-2 mr-2"></v-text-field>
     </v-toolbar>
     <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
     <v-footer height="auto" inset absolute app>
       <v-card flat tile color="secondary"class="white--text text-xs-center">
@@ -49,7 +47,11 @@
         drawer_links: [
           { icon: 'apps', title: 'Welcome', to: '/' },
           { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
-          { icon: 'bubble_chart', title: 'Longpage', to: '/longpage' }
+          { icon: 'bubble_chart', title: 'Longpage', to: '/longpage' },
+          { icon: 'bubble_chart', title: 'AskReddit', to: '/r/AskReddit' },
+          { icon: 'bubble_chart', title: 'aww', to: '/r/aww' },
+          { icon: 'bubble_chart', title: 'wtf', to: '/r/wtf' },
+          { icon: 'bubble_chart', title: 'DoesNotExits', to: '/r/DoesNotExits' }
         ],
         title: 'Related Subreddits'
       }
