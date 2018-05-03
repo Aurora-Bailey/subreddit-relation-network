@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid pa-0>
+  <v-container fluid pa-0 v-scroll="onScroll">
     <v-layout column>
       <v-flex mb-5>
         <v-jumbotron color="primary darken-4">
@@ -34,7 +34,7 @@
       <v-flex mb-5>
         <v-container pa-0>
           <v-layout row wrap align-center justify-center>
-            <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty" :key="x_subs_pretty.subreddit">
+            <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty_paginate" :key="x_subs_pretty.subreddit">
               <v-card nuxt :to="'/r/' + sub.subreddit" hover>
                 <v-card-title class="headline">r/{{sub.subreddit}}</v-card-title>
                 <v-card-text>
@@ -73,10 +73,23 @@
   export default {
     data () {
       return {
-        sort_by_percent: 'combined'
+        sort_by_percent: 'to',
+        paginate: 10,
+        paginate_by: 10
       }
     },
     methods: {
+      paginateLoad () {
+        this.paginate += this.paginate_by
+      },
+      onScroll (e) {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop
+        let viewHeight = window.innerHeight || document.documentElement.clientHeight
+        let pageHeight = document.documentElement.scrollHeight || document.documentElement.offsetHeight
+        let scrollBottom = scrollTop + viewHeight
+
+        if (scrollBottom === pageHeight) this.paginateLoad()
+      },
       numberWithCommas (x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       },
@@ -127,11 +140,14 @@
             return a.percent_combined > b.percent_combined ? -1 : 1
           })
         }
-        return arr.slice(0, 10)
+        return arr
+      },
+      x_subs_pretty_paginate () {
+        return this.x_subs_pretty.slice(0, this.paginate)
       }
     },
     async asyncData ({params, error, payload}) {
-      return axios.get(`https://s3.amazonaws.com/related-subreddits-28560367/${params.sub}.json`).then((res) => {
+      return axios.get(`https://s3.amazonaws.com/related-subreddits-49148307/${params.sub}.json`).then((res) => {
         // res.data == { subreddit: 'AskReddit', c: 283611, x_subs:{
         //   worldnews: {c: 80549, x: 2616},
         //   todayilearned: {c: 95618, x: 3425},
