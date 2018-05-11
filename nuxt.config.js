@@ -1,3 +1,4 @@
+const axios = require('axios')
 
 module.exports = {
   /*
@@ -23,6 +24,21 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  /*
+  ** Generate static routes
+  */
+  generate: {
+    routes: function () {
+      return axios.get('https://s3.amazonaws.com/related-subreddits-49148307/_index_subreddits.json')
+      .then((res) => {
+        return res.data.list.filter(subreddit => {
+          return !subreddit.includes(':')
+        }).map((subreddit) => {
+          return '/r/' + subreddit
+        })
+      })
+    }
+  },
   /*
   ** Build configuration
   */
