@@ -1,9 +1,9 @@
 export const state = () => ({
-  sidebar: false
+  sortSubreddits: 'combined'
 })
 
 export const mutations = {
-  toggleSidebar (state) {
-    state.sidebar = !state.sidebar
+  setSortSubreddits (state, value) {
+    state.sortSubreddits = value
   }
 }

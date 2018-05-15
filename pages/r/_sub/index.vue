@@ -30,7 +30,7 @@
                       </v-card-text>
                     </v-card>
 
-                    <v-radio-group v-model="sort_by_percent" label="Sort By" column dark>
+                    <v-radio-group v-model="sortSubreddits" label="Sort By" column dark>
                       <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
                       <v-radio color="secondary" label="Small specific" value="child"></v-radio>
                       <v-radio color="accent" label="Large general" value="combined"></v-radio>
@@ -46,10 +46,12 @@
         <v-container pa-0>
           <v-layout row wrap align-center justify-center>
             <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty_paginate" :key="x_subs_pretty.subreddits">
-              <v-card nuxt :to="'/r/' + sub.subreddits" hover>
-                <v-card-title class="headline">r/{{sub.subreddits}} <v-spacer></v-spacer> <v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
+              <v-card>
+                <v-card-title class="headline"><nuxt-link :to="'/r/' + sub.subreddits">r/{{sub.subreddits}}</nuxt-link><v-spacer></v-spacer><v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
                 <v-card-text>
                   <div class="reddit-html" v-html="nofollowLink(sub.public_description)"></div>
+
+                  <a rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + sub.subreddits">{{'https://reddit.com/r/' + sub.subreddits}}</a>
 
                   <!-- <div><b>{{numberWithCommas(sub.commenters)}}</b> users commented on <b>r/{{sub.subreddits}}</b></div>
                   <div><b>{{numberWithCommas(sub.cross_commenters)}}</b> users commented on both <b>r/{{subreddit}}</b> and <b>r/{{sub.subreddits}}</b></div>
@@ -73,10 +75,13 @@
 
 <style>
 body {
-  word-break: break-word
+  word-break: break-word;
 }
 .reddit-html ol, .reddit-html ul {
   padding-left: 30px;
+}
+a {
+  text-decoration: none;
 }
 </style>
 
@@ -90,7 +95,6 @@ body {
   export default {
     data () {
       return {
-        sort_by_percent: 'combined',
         paginate: 20,
         paginate_by: 10,
         full_description: false
@@ -132,6 +136,15 @@ body {
       }
     },
     computed: {
+      sortSubreddits: {
+        get: function () {
+          return this.$store.state.sortSubreddits
+        },
+        set: function (value) {
+          console.log(value)
+          this.$store.commit('setSortSubreddits', value)
+        }
+      },
       subredditHeaderSize () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs':
@@ -160,12 +173,12 @@ body {
         })
 
         // sort
-        if (this.sort_by_percent === 'parent') {
+        if (this.sortSubreddits === 'parent') {
           arr.sort((a, b) => {
             if (a.rank_parent === b.rank_parent) return 0
             return a.rank_parent < b.rank_parent ? -1 : 1
           })
-        } else if (this.sort_by_percent === 'child') {
+        } else if (this.sortSubreddits === 'child') {
           arr.sort((a, b) => {
             if (a.rank_child === b.rank_child) return 0
             return a.rank_child < b.rank_child ? -1 : 1
@@ -185,6 +198,8 @@ body {
     },
     async asyncData ({params, error, payload}) {
       return axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-72233827/${params.sub}.json`).then((res) => {
+        if (typeof process !== 'undefined') console.log(process.title)
+        if (typeof process === 'undefined') console.log('CLIENT')
         return res.data
         // {
         //   "subreddit": "Blink182",
