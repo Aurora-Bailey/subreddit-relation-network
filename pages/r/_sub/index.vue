@@ -9,6 +9,7 @@
                 <v-card color="primary darken-4" class="white--text" flat>
                   <v-card-title primary-title :class="subredditHeaderSize">r/{{subreddit}}</v-card-title>
                   <v-card-text>
+                    {{$store.state.subredditList}}
                     <div>
                       {{'Created in ' + new Date(created_utc * 1000).getFullYear()}}
                     </div>
