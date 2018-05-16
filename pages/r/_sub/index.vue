@@ -197,7 +197,7 @@ a {
       }
     },
     validate ({ params }) {
-      // Must be a number
+      // Must alphanumeric
       return /^[A-Za-z0-9_\-.:]*$/.test(params.sub)
     },
     async asyncData ({params, error, payload}) {
