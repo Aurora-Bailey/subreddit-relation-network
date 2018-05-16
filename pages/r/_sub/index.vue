@@ -9,7 +9,6 @@
                 <v-card color="primary darken-4" class="white--text" flat>
                   <v-card-title primary-title :class="subredditHeaderSize">r/{{subreddit}}</v-card-title>
                   <v-card-text>
-                    {{$store.state.subredditList}}
                     <div>
                       {{'Created in ' + new Date(created_utc * 1000).getFullYear()}}
                     </div>
@@ -196,6 +195,10 @@ a {
       x_subs_pretty_paginate () {
         return this.x_subs_pretty.slice(0, this.paginate)
       }
+    },
+    validate ({ params }) {
+      // Must be a number
+      return /^[A-Za-z0-9_\-.:]*$/.test(params.sub)
     },
     async asyncData ({params, error, payload}) {
       return api.getSubredditData(params.sub).then((data) => {
