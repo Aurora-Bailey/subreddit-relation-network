@@ -86,7 +86,7 @@ a {
 </style>
 
 <script>
-  import axios from 'axios'
+  import api from '~/my_modules/api'
 
   function percent (small, big) {
     return (small / big) * 100
@@ -197,36 +197,8 @@ a {
       }
     },
     async asyncData ({params, error, payload}) {
-      return axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-72233827/${params.sub}.json`).then((res) => {
-        if (typeof process !== 'undefined') console.log(process.title)
-        if (typeof process === 'undefined') console.log('CLIENT')
-        return res.data
-        // {
-        //   "subreddit": "Blink182",
-        //   "commenters": 1400,
-        //   "x_subs": {
-        //     "subreddits": [],
-        //     "cross_commenters": [],
-        //     "commenters": [],
-        //     "rank_child": [],
-        //     "rank_parent": [],
-        //     "rank_combined": [],
-        //     "public_description": [],
-        //     "subscribers": [],
-        //     "over18": []
-        //   },
-        //   "products": {
-        //     "asin": [],
-        //     "name": [],
-        //     "comment": [],
-        //     "count": []
-        //   },
-        //   "description": "",
-        //   "public_description": "",
-        //   "subscribers": 23274,
-        //   "accounts_active": 178,
-        //   "created_utc": 1287061704
-        // }
+      return api.getSubredditData(params.sub).then((data) => {
+        return data
       }).catch((e) => {
         error({ statusCode: 404, message: 'Page not found' })
       })

@@ -29,7 +29,7 @@ module.exports = {
   */
   generate: {
     routes: function () {
-      return axios.get('https://s3.amazonaws.com/related-subreddits-49148307/_index_subreddits.json')
+      return axios.get('https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json')
       .then((res) => {
         return res.data.list.filter(subreddit => {
           return !subreddit.includes(':')
@@ -40,12 +40,18 @@ module.exports = {
     }
   },
   /*
+  ** Disable prefetch and preload.
+  */
+  render: {
+    resourceHints: false
+  },
+  /*
   ** Build configuration
   */
   build: {
     vendor: [
       '~/plugins/vuetify.js',
-      'axios'
+      '~/my_modules/api.js',
     ],
     extractCSS: true,
     /*
