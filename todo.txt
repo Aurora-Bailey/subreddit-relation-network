@@ -1,0 +1,16 @@
+// PAGES
+Home
+r
+About
+
+// DOMAIN
+domain name => name server to route53
+nuxt generate => push to s3 => enable static site => enable cloudfront => link route53 to cloudfront
+lets encrypt ssl => cloudfront
+enable gzip cloudfront
+
+
+// Ads
+make website live
+sign up for amazon affiliate
+bake ads into list

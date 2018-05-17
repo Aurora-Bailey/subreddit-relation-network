@@ -141,7 +141,6 @@ a {
           return this.$store.state.sortSubreddits
         },
         set: function (value) {
-          console.log(value)
           this.$store.commit('setSortSubreddits', value)
         }
       },

@@ -16,7 +16,7 @@ class API {
     return new Promise((resolve, reject) => {
       if (isNode && !this.loadedAll) {
         this.loadedAll = true
-        console.log(`  ${chalk.cyanBright('api:pull')} EVERYTHING from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
+        if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} EVERYTHING from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
         axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_data.json`).then((res) => {
           this.cache = res.data
           axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json`).then((res) => {
@@ -32,7 +32,7 @@ class API {
           reject(err)
         })
       } else if (this.loadedAll) {
-        console.log(`  ${chalk.cyanBright('api:push')} request to overflow`)
+        if (isNode) console.log(`  ${chalk.cyanBright('api:push')} request to overflow`)
         this.preloadOverflow.push(resolve)
       }
     })
@@ -41,7 +41,7 @@ class API {
   getSubredditData (subreddit) {
     return new Promise((resolve, reject) => {
       if (typeof this.cache[subreddit] !== 'undefined') {
-        console.log(`  ${chalk.cyanBright('api:pull')} ${subreddit} from cache`)
+        if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} ${subreddit} from cache`)
         resolve(this.cache[subreddit])
       } else {
         if (isNode && this.runPreload) {
@@ -51,7 +51,7 @@ class API {
             }).catch(err => { reject(err) })
           }).catch(err => { reject(err) })
         } else {
-          console.log(`  ${chalk.cyanBright('api:pull')} ${subreddit} from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
+          if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} ${subreddit} from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
           axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/data/${subreddit}.json`).then((res) => {
             this.cache[subreddit] = res.data
             resolve(res.data)
@@ -66,7 +66,7 @@ class API {
   getSubredditList () {
     return new Promise((resolve, reject) => {
       if (typeof this.cacheSubredditList.list !== 'undefined') {
-        console.log(`  ${chalk.cyanBright('api:pull')} subreddit_list from cache`)
+        if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} subreddit_list from cache`)
         resolve(this.cacheSubredditList)
       } else {
         if (isNode && this.runPreload) {
@@ -76,7 +76,7 @@ class API {
             }).catch(err => { reject(err) })
           }).catch(err => { reject(err) })
         } else {
-          console.log(`  ${chalk.cyanBright('api:pull')} subreddit_list from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
+          if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} subreddit_list from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
           axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json`).then((res) => {
             this.cacheSubredditList = res.data
             resolve(res.data)
