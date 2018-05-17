@@ -1,12 +1,12 @@
 <template>
   <v-container fluid pa-0 v-scroll="onScroll">
     <v-layout column>
-      <v-flex mb-5>
-        <v-jumbotron color="primary darken-4" style="height: auto">
+      <v-flex mb-1>
+        <v-jumbotron color="primary darken-2" style="height: auto">
           <v-container pa-0>
             <v-layout row wrap align-center justify-center>
               <v-flex xs12 sm11 md11 lg10 xl8 py-4>
-                <v-card color="primary darken-4" class="white--text" flat>
+                <v-card color="primary darken-2" class="white--text" flat>
                   <v-card-title primary-title :class="subredditHeaderSize">r/{{subreddit}}</v-card-title>
                   <v-card-text>
                     <div>
@@ -22,25 +22,32 @@
                       <a class="white--text" rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + subreddit">{{'https://reddit.com/r/' + subreddit}}</a>
                     </div>
                     <br>
-                    <v-card>
+                    <v-card color="primary darken-1" class="white--text" flat>
                       <v-card-text>
                         <div class="reddit-html"  v-html="nofollowLink(public_description)"></div>
-                        <v-switch color="secondary" label="Show full description" v-model="full_description"></v-switch>
-                        <div v-if="full_description" class="reddit-html" v-html="nofollowLink(description)"></div>
+                        <!-- <v-switch color="secondary" label="Show full description" v-model="full_description"></v-switch>
+                        <div v-if="full_description" class="reddit-html" v-html="nofollowLink(description)"></div> -->
                       </v-card-text>
                     </v-card>
-
-                    <v-radio-group v-model="sortSubreddits" label="Sort By" column dark>
-                      <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
-                      <v-radio color="secondary" label="Small specific" value="child"></v-radio>
-                      <v-radio color="accent" label="Large general" value="combined"></v-radio>
-                    </v-radio-group>
                   </v-card-text>
                 </v-card>
               </v-flex>
             </v-layout>
           </v-container>
         </v-jumbotron>
+      </v-flex>
+      <v-flex mb-1>
+        <v-container pa-2>
+          <v-layout row wrap align-center justify-center>
+            <v-flex xs12 sm11 md11 lg10 xl8>
+              <v-radio-group v-model="sortSubreddits" label="Sort By" row>
+                <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
+                <v-radio color="secondary" label="Small specific" value="child"></v-radio>
+                <v-radio color="primary" label="Large general" value="combined"></v-radio>
+              </v-radio-group>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-flex>
       <v-flex mb-5>
         <v-container pa-0>
