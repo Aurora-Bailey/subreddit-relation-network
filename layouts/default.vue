@@ -52,10 +52,16 @@
         drawer: false,
         searching: false,
         drawer_links: [
-          { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
-          { icon: 'bubble_chart', title: 'AskReddit', to: '/r/AskReddit' },
-          { icon: 'bubble_chart', title: 'aww', to: '/r/aww' }
+          { icon: 'home', title: 'Home', to: '/' },
+          { icon: 'info', title: 'About', to: '/about' }
+          // { icon: 'whatshot', title: 'AskReddit', to: '/r/AskReddit' },
+          // { icon: 'whatshot', title: 'aww', to: '/r/aww' },
+          // { icon: 'whatshot', title: 'todayilearned', to: '/r/todayilearned' },
+          // { icon: 'whatshot', title: 'EarthPorn', to: '/r/EarthPorn' },
+          // { icon: 'whatshot', title: 'books', to: '/r/books' },
+          // { icon: 'whatshot', title: 'mildlyinteresting', to: '/r/mildlyinteresting' },
+          // { icon: 'whatshot', title: 'Art', to: '/r/Art' },
+          // { icon: 'whatshot', title: 'Fitness', to: '/r/Fitness' }
         ],
         title: 'Related Subreddits'
       }

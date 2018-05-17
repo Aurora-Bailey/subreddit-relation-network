@@ -9,6 +9,7 @@ domain name => name server to route53
 nuxt generate => push to s3 => enable static site => enable cloudfront => link route53 to cloudfront
 lets encrypt ssl => cloudfront
 enable gzip cloudfront
+google analytics
 
 
 // Ads
