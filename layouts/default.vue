@@ -16,7 +16,9 @@
     <!-- tool bar -->
     <v-toolbar v-if="!searching" :scroll-threshold="50" scroll-off-screen fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title" class="ml-3 mr-3"></v-toolbar-title>
+      <nuxt-link to="/">
+        <v-toolbar-title v-text="title" class="ml-3 mr-3 grey--text text--darken-3"></v-toolbar-title>
+      </nuxt-link>
       <v-spacer class="hidden-sm-and-up"></v-spacer>
       <v-select :items="subredditList" v-model="selectSubreddit" label="Find Subreddit" class="hidden-xs-only ml-4 mr-4" autocomplete flat solo-inverted prepend-icon="search"></v-select>
       <v-btn class="hidden-sm-and-up" @click="searching = true" icon><v-icon>search</v-icon></v-btn>

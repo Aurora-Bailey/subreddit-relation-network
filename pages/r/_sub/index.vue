@@ -7,7 +7,7 @@
             <v-layout row wrap align-center justify-center>
               <v-flex xs12 sm11 md11 lg10 xl8 py-4>
                 <v-card color="primary darken-2" class="white--text" flat>
-                  <v-card-title primary-title class="display-2">r/{{subreddit}}</v-card-title>
+                  <v-card-title primary-title><h1 class="display-2">r/{{subreddit}}</h1></v-card-title>
                   <v-card-text>
                     <p>
                       <b>{{numberWithCommas(subscribers)}}</b> subscribers

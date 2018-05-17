@@ -3,6 +3,7 @@ Home
 --r
 About
 --404 page
+footer
 
 // DOMAIN
 domain name => name server to route53
