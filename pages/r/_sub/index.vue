@@ -7,24 +7,21 @@
             <v-layout row wrap align-center justify-center>
               <v-flex xs12 sm11 md11 lg10 xl8 py-4>
                 <v-card color="primary darken-2" class="white--text" flat>
-                  <v-card-title primary-title :class="subredditHeaderSize">r/{{subreddit}}</v-card-title>
+                  <v-card-title primary-title class="display-2">r/{{subreddit}}</v-card-title>
                   <v-card-text>
-                    <div>
-                      {{'Created in ' + new Date(created_utc * 1000).getFullYear()}}
-                    </div>
-                    <div>
+                    <p>
                       <b>{{numberWithCommas(subscribers)}}</b> subscribers
-                    </div>
-                    <div>
+                      <br>
+                      {{'Created in ' + new Date(created_utc * 1000).getFullYear()}}
+                    </p>
+                    <!-- <div>
                       <b>{{numberWithCommas(commenters)}}</b> commenters in our dataset
-                    </div>
-                    <div>
-                      <a class="white--text" rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + subreddit">{{'https://reddit.com/r/' + subreddit}}</a>
-                    </div>
+                    </div> -->
                     <br>
-                    <v-card color="primary darken-1" class="white--text" flat>
+                    <v-card>
                       <v-card-text>
                         <div class="reddit-html"  v-html="nofollowLink(public_description)"></div>
+                        <a rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + subreddit">{{'https://reddit.com/r/' + subreddit}} <v-icon small color="primary">launch</v-icon></a>
                         <!-- <v-switch color="secondary" label="Show full description" v-model="full_description"></v-switch>
                         <div v-if="full_description" class="reddit-html" v-html="nofollowLink(description)"></div> -->
                       </v-card-text>
@@ -55,10 +52,13 @@
             <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty_paginate" :key="x_subs_pretty.subreddits">
               <v-card>
                 <v-card-title class="headline"><nuxt-link :to="'/r/' + sub.subreddits">r/{{sub.subreddits}}</nuxt-link><v-spacer></v-spacer><v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
-                <v-card-text>
-                  <div class="reddit-html" v-html="nofollowLink(sub.public_description)"></div>
-
-                  <a rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + sub.subreddits">{{'https://reddit.com/r/' + sub.subreddits}}</a>
+                <v-card-text class="pt-0">
+                  <v-card color="grey lighten-4" flat>
+                    <v-card-text>
+                      <div class="reddit-html" v-html="nofollowLink(sub.public_description)"></div>
+                      <a rel="noopener nofollow" target="_blank" :href="'https://reddit.com/r/' + sub.subreddits">{{'https://reddit.com/r/' + sub.subreddits}} <v-icon small color="primary">launch</v-icon></a>
+                    </v-card-text>
+                  </v-card>
 
                   <!-- <div><b>{{numberWithCommas(sub.commenters)}}</b> users commented on <b>r/{{sub.subreddits}}</b></div>
                   <div><b>{{numberWithCommas(sub.cross_commenters)}}</b> users commented on both <b>r/{{subreddit}}</b> and <b>r/{{sub.subreddits}}</b></div>
@@ -149,20 +149,6 @@ a {
         },
         set: function (value) {
           this.$store.commit('setSortSubreddits', value)
-        }
-      },
-      subredditHeaderSize () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs':
-            return 'headline'
-          case 'sm':
-            return 'display-2'
-          case 'md':
-            return 'display-2'
-          case 'lg':
-            return 'display-2'
-          case 'xl':
-            return 'display-2'
         }
       },
       x_subs_pretty () {
