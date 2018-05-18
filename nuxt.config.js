@@ -29,7 +29,7 @@ module.exports = {
   */
   generate: {
     routes: function () {
-      return axios.get('https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json')
+      return axios.get('https://reddit.guide/index/subreddit_list.json')
       .then((res) => {
         return res.data.list.filter(subreddit => {
           return !subreddit.includes(':')

@@ -11,6 +11,7 @@ nuxt generate => push to s3 => enable static site => enable cloudfront => link r
 lets encrypt ssl => cloudfront
 enable gzip cloudfront
 google analytics
+aws s3 cp ./dist s3://reddit.guide --recursive
 
 
 // Ads

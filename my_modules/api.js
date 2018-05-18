@@ -17,9 +17,9 @@ class API {
       if (isNode && !this.loadedAll) {
         this.loadedAll = true
         if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} EVERYTHING from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
-        axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_data.json`).then((res) => {
+        axios.get(`https://reddit.guide/index/subreddit_data.json`).then((res) => {
           this.cache = res.data
-          axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json`).then((res) => {
+          axios.get(`https://reddit.guide/index/subreddit_list.json`).then((res) => {
             this.cacheSubredditList = res.data
             resolve()
             this.preloadOverflow.forEach(resolveOthers => {
@@ -52,7 +52,7 @@ class API {
           }).catch(err => { reject(err) })
         } else {
           if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} ${subreddit} from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
-          axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/data/${subreddit}.json`).then((res) => {
+          axios.get(`https://reddit.guide/data/${subreddit}.json`).then((res) => {
             this.cache[subreddit] = res.data
             resolve(res.data)
           }).catch((err) => {
@@ -77,7 +77,7 @@ class API {
           }).catch(err => { reject(err) })
         } else {
           if (isNode) console.log(`  ${chalk.cyanBright('api:pull')} subreddit_list from ${chalk.yellowBright.inverse(' AWS S3 ')}`)
-          axios.get(`https://s3-us-west-2.amazonaws.com/related-subreddits-86775957/index/subreddit_list.json`).then((res) => {
+          axios.get(`https://reddit.guide/index/subreddit_list.json`).then((res) => {
             this.cacheSubredditList = res.data
             resolve(res.data)
           }).catch((err) => {
