@@ -1,8 +1,8 @@
 // PAGES
 --Home
-r
-About
-footer
+----r
+----About
+----footer
 
 ----loading bar color
 ----remove toolbar title underline
