@@ -17,6 +17,7 @@ $ npm start
 
 # generate static project
 $ npm run generate
+$ aws s3 cp ./dist s3://bucket --recursive
 ```
 
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

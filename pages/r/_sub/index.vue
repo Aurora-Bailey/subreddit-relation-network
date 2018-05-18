@@ -2,17 +2,17 @@
   <v-container fluid pa-0 v-scroll="onScroll">
     <v-layout column>
       <v-flex mb-1>
-        <v-jumbotron color="primary darken-2" style="height: auto">
+        <v-jumbotron color="primary" style="height: auto">
           <v-container pa-0>
             <v-layout row wrap align-center justify-center>
               <v-flex xs12 sm11 md11 lg10 xl8 py-4>
-                <v-card color="primary darken-2" class="white--text" flat>
+                <v-card color="primary" class="white--text" flat>
                   <v-card-title primary-title><h1 class="display-2">r/{{subreddit}}</h1></v-card-title>
                   <v-card-text>
                     <p>
                       <b>{{numberWithCommas(subscribers)}}</b> subscribers
                       <br>
-                      {{'Created in ' + new Date(created_utc * 1000).getFullYear()}}
+                      {{'created in ' + new Date(created_utc * 1000).getFullYear()}}
                     </p>
                     <!-- <div>
                       <b>{{numberWithCommas(commenters)}}</b> commenters in our dataset
@@ -37,10 +37,10 @@
         <v-container pa-2>
           <v-layout row wrap align-center justify-center>
             <v-flex xs12 sm11 md11 lg10 xl8>
-              <v-radio-group v-model="sortSubreddits" label="Sort By" row>
+              <v-radio-group v-model="sortSubreddits" label="sort by" row>
                 <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
-                <v-radio color="secondary" label="Small specific" value="child"></v-radio>
-                <v-radio color="primary" label="Large general" value="combined"></v-radio>
+                <v-radio color="secondary" label="small specific" value="child"></v-radio>
+                <v-radio color="primary" label="large general" value="combined"></v-radio>
               </v-radio-group>
             </v-flex>
           </v-layout>
@@ -80,18 +80,6 @@
   </v-container>
 </template>
 
-<style>
-body {
-  word-break: break-word;
-}
-.reddit-html ol, .reddit-html ul {
-  padding-left: 30px;
-}
-a {
-  text-decoration: none;
-}
-</style>
-
 <script>
   import api from '~/my_modules/api'
 
@@ -100,6 +88,17 @@ a {
   }
 
   export default {
+    head () {
+      return {
+        title: `r/${this.subreddit} - reddit.guide`,
+        meta: [
+          { hid: 'description', name: 'description', content: `Find more subreddits like r/${this.subreddit}` },
+          { hid: 'og:description', property: 'og:description', content: `Find more subreddits like r/${this.subreddit}` },
+          { hid: 'og:title', property: 'og:title', content: `r/${this.subreddit} - reddit.guide` },
+          { hid: 'og:url', property: 'og:url', content: `https://reddit.guide/r/${this.subreddit}/` }
+        ]
+      }
+    },
     data () {
       return {
         paginate: 20,

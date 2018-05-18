@@ -5,11 +5,18 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'subreddit-relation-network',
+    title: 'Find new subreddits - reddit.guide',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js + Vuetify.js project' }
+      { hid: 'description', name: 'description', content: 'Find new subreddits related to the ones you already like.' },
+      { hid: 'og:description', property: 'og:description', content: `Find new subreddits related to the ones you already like.` },
+      { hid: 'og:title', property: 'og:title', content: `Find new subreddits - reddit.guide` },
+      { hid: 'og:url', property: 'og:url', content: `https://reddit.guide/` },
+      { hid: 'og:type', property: 'og:type', content: `website` },
+      { hid: 'og:site_name', property: 'og:site_name', content: `reddit.guide` },
+      { hid: 'og:image', property: 'og:image', content: `https://reddit.guide/favicon.ico` },
+      { hid: 'twitter:card', property: 'twitter:card', content: `summary` }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -23,7 +30,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#FF5722' },
   /*
   ** Generate static routes
   */

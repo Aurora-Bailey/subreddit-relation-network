@@ -1,17 +1,23 @@
 // PAGES
-Home
---r
+--Home
+r
 About
---404 page
 footer
 
+----loading bar color
+----remove toolbar title underline
+----rename related subreddits to Reddit Guide
+----favicon
+----robots.txt
+----page head
+----nuxt config head
+
 // DOMAIN
-domain name => name server to route53
-nuxt generate => push to s3 => enable static site => enable cloudfront => link route53 to cloudfront
-lets encrypt ssl => cloudfront
-enable gzip cloudfront
+----domain name => name server to route53
+----nuxt generate => push to s3 => enable static site => enable cloudfront => link route53 to cloudfront
+----lets encrypt ssl => cloudfront
+----enable gzip cloudfront
 google analytics
-aws s3 cp ./dist s3://reddit.guide --recursive
 
 
 // Ads
