@@ -51,7 +51,7 @@
           <v-layout row wrap align-center justify-center>
             <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty_paginate" :key="x_subs_pretty.subreddits">
               <v-card>
-                <v-card-title class="headline"><nuxt-link :to="'/r/' + sub.subreddits">r/{{sub.subreddits}}</nuxt-link><v-spacer></v-spacer><v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
+                <v-card-title class="headline"><nuxt-link :to="'/r/' + sub.subreddits + '/'">r/{{sub.subreddits}}</nuxt-link><v-spacer></v-spacer><v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
                 <v-card-text class="pt-0">
                   <v-card color="grey lighten-4" flat>
                     <v-card-text>
