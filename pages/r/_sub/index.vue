@@ -33,6 +33,20 @@
           </v-container>
         </v-jumbotron>
       </v-flex>
+      <!-- <v-flex mb-1 v-if="products.asin.length > 1">
+        <v-container pa-2>
+          <v-layout row wrap align-center justify-center>
+            <v-flex xs12 sm11 md11 lg10 xl8>
+              <h3 class="title">Products frequently mentioned in r/{{subreddit}}</h3>
+
+              <iframe frameBorder="0" height="166px" width="100%" v-for="asin in products.asin" :src="'/amazon-native-shopping-single-ad.html?asins=' + asin"></iframe>
+
+              <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-ads.html?asins=' + products.asin.slice(0, 4).join(',')"></iframe>
+              <iframe v-if="products.asin.length > 4" frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-ads.html?asins=' + products.asin.slice(4, 8).join(',')"></iframe>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-flex> -->
       <v-flex mb-1>
         <v-container pa-2>
           <v-layout row wrap align-center justify-center>
@@ -41,6 +55,7 @@
                 <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
                 <v-radio color="secondary" label="small specific" value="child"></v-radio>
                 <v-radio color="primary" label="large general" value="combined"></v-radio>
+                <v-radio color="accent" label="only ads" value="ads"></v-radio>
               </v-radio-group>
             </v-flex>
           </v-layout>
@@ -50,7 +65,8 @@
         <v-container pa-0>
           <v-layout row wrap align-center justify-center>
             <v-flex xs12 sm11 md11 lg10 xl8 mb-2 v-for="sub in x_subs_pretty_paginate" :key="x_subs_pretty.subreddits">
-              <v-card>
+              <!-- Subreddit -->
+              <v-card v-if="sub.subreddits">
                 <v-card-title class="headline"><nuxt-link :to="'/r/' + sub.subreddits + '/'">r/{{sub.subreddits}}</nuxt-link><v-spacer></v-spacer><v-chip v-if="sub.over18" color="red" label outline>NSFW</v-chip><v-subheader>{{abbreviateNumber(sub.subscribers)}} subscribers</v-subheader></v-card-title>
                 <v-card-text class="pt-0">
                   <v-card color="grey lighten-4" flat>
@@ -72,6 +88,36 @@
                   </div>
                 </v-card-text>
               </v-card>
+              <!-- Ads are baked into x_subs -->
+              <v-card color="accent" v-else>
+                <v-card-title class="headline white--text">Ad <v-spacer></v-spacer> <span class="subheader white--text">popular products found while scraping</span></v-card-title>
+                <v-card-text v-if="showAds">
+                  <v-card flat>
+                    <v-card-text>
+                      <b>{{sub.count}}</b> users mentioned - <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide-20'">{{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a> in r/{{subreddit}}
+                      <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-single-ad.html?asins=' + sub.asin"></iframe>
+                      <div v-if="showComment">
+                        <div class="subheader">Top comment:</div>
+                        <blockquote class="reddit-html blockquote quote--smaller grey lighten-4">
+                          <span v-html="killLink(sub.comment)"></span>
+                          <footer>
+                            <small>
+                              <em>&mdash;usernamehere</em>
+                            </small>
+                          </footer>
+                        </blockquote>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-card-text>
+                <v-card-actions>
+                  <a href="javascript:void" class="white--text pl-3 text--soften" @click="showAds = !showAds" v-if="showAds">I hate ads don't show them to me!</a>
+                  <a href="javascript:void" class="white--text pl-3 text--soften" @click="showAds = !showAds" v-if="!showAds">I've changed my mind, you can show me ads.</a>
+                  <v-spacer></v-spacer>
+                  <a href="javascript:void" class="white--text pr-3 text--soften" @click="showComment = !showComment" v-if="showComment">Hide the comments!</a>
+                  <a href="javascript:void" class="white--text pr-3 text--soften" @click="showComment = !showComment" v-if="!showComment">Show the comments.</a>
+                </v-card-actions>
+              </v-card>
             </v-flex>
           </v-layout>
         </v-container>
@@ -79,6 +125,15 @@
     </v-layout>
   </v-container>
 </template>
+
+<style>
+.text--soften {
+  opacity: 0.5;
+}
+.quote--smaller {
+  font-size: 14px;
+}
+</style>
 
 <script>
   import api from '~/my_modules/api'
@@ -101,14 +156,20 @@
     },
     data () {
       return {
+        showAds: true,
+        showComment: true,
         paginate: 20,
         paginate_by: 10,
+        ad_every_x: 5,
         full_description: false
       }
     },
     methods: {
       nofollowLink (link) {
         return link.replace(/<a/ig, '<a rel="noopener nofollow" target="_blank" ')
+      },
+      killLink (link) {
+        return link.replace(/href/ig, 'href-disable')
       },
       paginateLoad () {
         this.paginate += this.paginate_by
@@ -179,6 +240,31 @@
             if (a.rank_combined === b.rank_combined) return 0
             return a.rank_combined < b.rank_combined ? -1 : 1
           })
+        }
+
+        // bake in ads
+        if (this.sortSubreddits === 'ads') {
+          // replace
+          arr = []
+          for (let i = 0; i < this.products.asin.length; i++) {
+            let objectifyProducts = {}
+            Object.keys(this.products).forEach(key => {
+              objectifyProducts[key] = this.products[key][i]
+            })
+
+            arr.push(objectifyProducts)
+          }
+        } else {
+          // salt
+          for (let i = this.products.asin.length - 1; i >= 0; i--) {
+            let spot = this.ad_every_x * i + this.ad_every_x
+            let objectifyProducts = {}
+            Object.keys(this.products).forEach(key => {
+              objectifyProducts[key] = this.products[key][i]
+            })
+
+            arr.splice(spot, 0, objectifyProducts)
+          }
         }
 
         return arr

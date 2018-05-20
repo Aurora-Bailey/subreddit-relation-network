@@ -11,6 +11,8 @@
 ----robots.txt
 ----page head
 ----nuxt config head
+xss in all reddit html
+rebuild database with comment links/usernames/score
 
 // DOMAIN
 ----domain name => name server to route53

@@ -5,7 +5,7 @@
         <v-card>
          <v-card-title class="headline">About</v-card-title>
          <v-card-text>
-           <p>Have you ever wondered if your missing out on a subreddit? That's why we created "reddit.guide", to find subreddits like others, unbiased, without relying on subreddit description links.</p>
+           <p>Have you ever wondered if you're missing out on a subreddit? That's why we created "reddit.guide", to find subreddits like others, unbiased, without relying on subreddit description links.</p>
            <p>It works by pulling comments from reddit and connecting users who comment on multiple subreddits to build a map of subreddits with overlaping commenters. Subreddits are then ranked by what percent of one subreddit comments on another.</p>
          </v-card-text>
          <v-card-actions>
