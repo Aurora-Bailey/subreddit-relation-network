@@ -1,14 +1,10 @@
 import api from '~/my_modules/api'
 
 export const state = () => ({
-  sortSubreddits: 'combined',
   subredditList: []
 })
 
 export const mutations = {
-  setSortSubreddits (state, value) {
-    state.sortSubreddits = value
-  },
   setSubredditList (state, list) {
     state.subredditList = list
   }

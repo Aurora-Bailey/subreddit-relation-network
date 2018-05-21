@@ -23,7 +23,9 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
-  plugins: ['~/plugins/vuetify.js'],
+  plugins: [
+    '~/plugins/vuetify.js',
+    { src: '~/plugins/localStorage.js', ssr: false }],
   modules: [
     ['@nuxtjs/google-analytics', { id: 'UA-119546324-1' }]
   ],

@@ -111,7 +111,12 @@ export default api
 //     "asin": [],
 //     "name": [],
 //     "comment": [],
-//     "count": []
+//     "t_count": [],
+//     "s_count": [],
+//     "score": [],
+//     "author": [],
+//     "link": [],
+//     "created": []
 //   },
 //   "description": "",
 //   "public_description": "",

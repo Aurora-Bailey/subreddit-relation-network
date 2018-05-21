@@ -33,20 +33,6 @@
           </v-container>
         </v-jumbotron>
       </v-flex>
-      <!-- <v-flex mb-1 v-if="products.asin.length > 1">
-        <v-container pa-2>
-          <v-layout row wrap align-center justify-center>
-            <v-flex xs12 sm11 md11 lg10 xl8>
-              <h3 class="title">Products frequently mentioned in r/{{subreddit}}</h3>
-
-              <iframe frameBorder="0" height="166px" width="100%" v-for="asin in products.asin" :src="'/amazon-native-shopping-single-ad.html?asins=' + asin"></iframe>
-
-              <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-ads.html?asins=' + products.asin.slice(0, 4).join(',')"></iframe>
-              <iframe v-if="products.asin.length > 4" frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-ads.html?asins=' + products.asin.slice(4, 8).join(',')"></iframe>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex> -->
       <v-flex mb-1>
         <v-container pa-2>
           <v-layout row wrap align-center justify-center>
@@ -89,20 +75,23 @@
                 </v-card-text>
               </v-card>
               <!-- Ads are baked into x_subs -->
-              <v-card color="accent" v-else>
-                <v-card-title class="headline white--text">Ad <v-spacer></v-spacer> <span class="subheader white--text">popular products found while scraping</span></v-card-title>
-                <v-card-text v-if="showAds">
+              <v-card :color="showProducts ? 'accent' : 'accent lighten-1'" v-else>
+                <v-card-title class="headline white--text">Popular products found while scraping</v-card-title>
+                <v-card-text v-if="showProducts">
                   <v-card flat>
                     <v-card-text>
-                      <b>{{sub.count}}</b> users mentioned - <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide-20'">{{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a> in r/{{subreddit}}
+                      <b>{{sub.t_count}}</b> redditors mentioned <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide-20'">- {{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a>
                       <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-single-ad.html?asins=' + sub.asin"></iframe>
-                      <div v-if="showComment">
+                      <div v-if="showComments">
                         <div class="subheader">Top comment:</div>
                         <blockquote class="reddit-html blockquote quote--smaller grey lighten-4">
                           <span v-html="killLink(sub.comment)"></span>
                           <footer>
                             <small>
-                              <em>&mdash;usernamehere</em>
+                              <em>&mdash;u/{{sub.author}}</em><br>
+                              <em>{{(new Date(sub.created * 1000)).toLocaleDateString()}}</em><br>
+                              <!-- <em>Score {{sub.score}}</em><br> -->
+                              <a rel="noopener nofollow" target="_blank" :href="sub.link">See comment on r/{{subreddit}}</a>
                             </small>
                           </footer>
                         </blockquote>
@@ -111,11 +100,11 @@
                   </v-card>
                 </v-card-text>
                 <v-card-actions>
-                  <a href="javascript:void" class="white--text pl-3 text--soften" @click="showAds = !showAds" v-if="showAds">I hate ads don't show them to me!</a>
-                  <a href="javascript:void" class="white--text pl-3 text--soften" @click="showAds = !showAds" v-if="!showAds">I've changed my mind, you can show me ads.</a>
+                  <a href="javascript:void(0)" class="white--text pl-3 text--soften" @click="showProducts = !showProducts" v-if="showProducts">Don't show me popular products!</a>
+                  <a href="javascript:void(0)" class="white--text pl-3 text--soften" @click="showProducts = !showProducts" v-if="!showProducts">I've changed my mind, you can show them to me.</a>
                   <v-spacer></v-spacer>
-                  <a href="javascript:void" class="white--text pr-3 text--soften" @click="showComment = !showComment" v-if="showComment">Hide the comments!</a>
-                  <a href="javascript:void" class="white--text pr-3 text--soften" @click="showComment = !showComment" v-if="!showComment">Show the comments.</a>
+                  <a href="javascript:void(0)" class="white--text pr-3 text--soften" @click="showComments = !showComments" v-if="showComments && showProducts">Hide the comments!</a>
+                  <a href="javascript:void(0)" class="white--text pr-3 text--soften" @click="showComments = !showComments" v-if="!showComments && showProducts">Show the comments.</a>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -156,8 +145,6 @@
     },
     data () {
       return {
-        showAds: true,
-        showComment: true,
         paginate: 20,
         paginate_by: 10,
         ad_every_x: 5,
@@ -169,7 +156,7 @@
         return link.replace(/<a/ig, '<a rel="noopener nofollow" target="_blank" ')
       },
       killLink (link) {
-        return link.replace(/href/ig, 'href-disable')
+        return link.replace(/<a/ig, '<span class="secondary--text"').replace(/a>/ig, 'span>')
       },
       paginateLoad () {
         this.paginate += this.paginate_by
@@ -205,10 +192,26 @@
     computed: {
       sortSubreddits: {
         get: function () {
-          return this.$store.state.sortSubreddits
+          return this.$store.state.toggles.sortSubreddits
         },
         set: function (value) {
-          this.$store.commit('setSortSubreddits', value)
+          this.$store.commit('toggles/setSortSubreddits', value)
+        }
+      },
+      showProducts: {
+        get: function () {
+          return this.$store.state.toggles.showProducts
+        },
+        set: function (value) {
+          this.$store.commit('toggles/setShowProducts', value)
+        }
+      },
+      showComments: {
+        get: function () {
+          return this.$store.state.toggles.showComments
+        },
+        set: function (value) {
+          this.$store.commit('toggles/setShowComments', value)
         }
       },
       x_subs_pretty () {

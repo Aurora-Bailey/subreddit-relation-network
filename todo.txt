@@ -11,8 +11,11 @@
 ----robots.txt
 ----page head
 ----nuxt config head
-xss in all reddit html
-rebuild database with comment links/usernames/score
+----xss in all reddit html
+----rebuild database with comment links/usernames/score
+----toggle variables to store
+----product count per total insted of per sub
+move ifame to somthing faster
 
 // DOMAIN
 ----domain name => name server to route53
