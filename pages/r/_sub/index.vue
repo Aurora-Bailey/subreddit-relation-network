@@ -74,7 +74,6 @@
                   </div>
                 </v-card-text>
               </v-card>
-              <!-- Ads are baked into x_subs -->
               <v-card :color="showProducts ? 'accent' : 'accent lighten-1'" v-else>
                 <v-card-title class="headline white--text">Popular products found while scraping</v-card-title>
                 <v-card-text v-if="showProducts">
@@ -246,27 +245,29 @@
         }
 
         // bake in ads
-        if (this.sortSubreddits === 'ads') {
-          // replace
-          arr = []
-          for (let i = 0; i < this.products.asin.length; i++) {
-            let objectifyProducts = {}
-            Object.keys(this.products).forEach(key => {
-              objectifyProducts[key] = this.products[key][i]
-            })
+        if (typeof this.products !== 'undefined') {
+          if (this.sortSubreddits === 'ads') {
+            // replace
+            arr = []
+            for (let i = 0; i < this.products.asin.length; i++) {
+              let objectifyProducts = {}
+              Object.keys(this.products).forEach(key => {
+                objectifyProducts[key] = this.products[key][i]
+              })
 
-            arr.push(objectifyProducts)
-          }
-        } else {
-          // salt
-          for (let i = this.products.asin.length - 1; i >= 0; i--) {
-            let spot = this.ad_every_x * i + this.ad_every_x
-            let objectifyProducts = {}
-            Object.keys(this.products).forEach(key => {
-              objectifyProducts[key] = this.products[key][i]
-            })
+              arr.push(objectifyProducts)
+            }
+          } else {
+            // salt
+            for (let i = this.products.asin.length - 1; i >= 0; i--) {
+              let spot = this.ad_every_x * i + this.ad_every_x
+              let objectifyProducts = {}
+              Object.keys(this.products).forEach(key => {
+                objectifyProducts[key] = this.products[key][i]
+              })
 
-            arr.splice(spot, 0, objectifyProducts)
+              arr.splice(spot, 0, objectifyProducts)
+            }
           }
         }
 
