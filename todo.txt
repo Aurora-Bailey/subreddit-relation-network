@@ -15,7 +15,7 @@
 ----rebuild database with comment links/usernames/score
 ----toggle variables to store
 ----product count per total insted of per sub
-move ifame to somthing faster
+!!!!move ifame to somthing faster
 
 // DOMAIN
 ----domain name => name server to route53
@@ -26,7 +26,7 @@ move ifame to somthing faster
 
 
 // Ads
-make website live
-sign up for amazon affiliate
-bake ads into list
-re render website
+----make website live
+----sign up for amazon affiliate
+----bake ads into list
+----re render website

@@ -4,9 +4,9 @@
       <v-flex xs12 sm11 md11 lg10 xl8 text-xs-center>
         <v-card>
           <v-card-text>
-            <v-chip color="primary" v-for="subreddit in subredditList" :key="subreddit">
-              <nuxt-link class="white--text" :to="'/r/' + subreddit + '/'">r/{{subreddit}}</nuxt-link>
-            </v-chip>
+            <nuxt-link v-for="subreddit in subredditList" :key="subreddit" :to="'/r/' + subreddit + '/'">r/{{subreddit}}</nuxt-link>
+            <!-- <v-chip color="primary" >
+            </v-chip> -->
           </v-card-text>
         </v-card>
       </v-flex>
