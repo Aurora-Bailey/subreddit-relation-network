@@ -15,7 +15,7 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: `https://reddit.guide/` },
       { hid: 'og:type', property: 'og:type', content: `website` },
       { hid: 'og:site_name', property: 'og:site_name', content: `reddit.guide` },
-      { hid: 'og:image', property: 'og:image', content: `https://reddit.guide/favicon.ico` },
+      { hid: 'og:image', property: 'og:image', content: `https://reddit.guide/og-v1.jpg` },
       { hid: 'twitter:card', property: 'twitter:card', content: `summary` }
     ],
     link: [

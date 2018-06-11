@@ -16,6 +16,15 @@
 ----toggle variables to store
 ----product count per total insted of per sub
 !!!!move ifame to somthing faster
+----sort by only ads to only products
+better arrow on homepage
+----popular producst found while -scaping
+????restyle iframe add with border and subtle text
+????specific broad
+????obtuse acute
+????remove banned subreddits
+----add more descriptive og image
+----mouseover explaining the bar thing
 
 // DOMAIN
 ----domain name => name server to route53

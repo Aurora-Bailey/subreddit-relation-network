@@ -41,7 +41,7 @@
                 <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
                 <v-radio color="secondary" label="small specific" value="child"></v-radio>
                 <v-radio color="primary" label="large general" value="combined"></v-radio>
-                <v-radio color="accent" label="only ads" value="ads"></v-radio>
+                <v-radio color="accent" label="only products" value="ads"></v-radio>
               </v-radio-group>
             </v-flex>
           </v-layout>
@@ -69,13 +69,23 @@
 
                   <div style="position: relative">
                     <v-progress-linear :height="30" :value="(100 / (sub.percent_of_parent_sub + sub.percent_of_child_sub)) * sub.percent_of_parent_sub" color="primary" background-color="secondary"></v-progress-linear>
-                    <div style="position: absolute; top: 0; bottom: 0; left: 24px; color: white; z-index: 1; line-height: 30px"><b>{{subreddit}}</b> {{roundNumber(sub.percent_of_parent_sub, 2)}}%</div>
-                    <div style="position: absolute; top: 0; bottom: 0; right: 24px; color: white; z-index: 1; line-height: 30px">{{roundNumber(sub.percent_of_child_sub, 2)}}% <b>{{sub.subreddits}}</b></div>
+                    <div style="position: absolute; top: 0; bottom: 0; left: 24px; color: white; z-index: 1; line-height: 30px">
+                      <v-tooltip top>
+                        <span slot="activator"><b>{{subreddit}}</b> {{roundNumber(sub.percent_of_parent_sub, 2)}}%</span>
+                        <span><b>{{roundNumber(sub.percent_of_parent_sub, 2)}}%</b> of users who commented on <b>r/{{subreddit}}</b> also commented on <b>r/{{sub.subreddits}}</b></span>
+                      </v-tooltip>
+                    </div>
+                    <div style="position: absolute; top: 0; bottom: 0; right: 24px; color: white; z-index: 1; line-height: 30px">
+                      <v-tooltip top>
+                        <span slot="activator">{{roundNumber(sub.percent_of_child_sub, 2)}}% <b>{{sub.subreddits}}</b></span>
+                        <span><b>{{roundNumber(sub.percent_of_child_sub, 2)}}%</b> of users who commented on <b>r/{{sub.subreddits}}</b> also commented on <b>r/{{subreddit}}</b></span>
+                      </v-tooltip>
+                    </div>
                   </div>
                 </v-card-text>
               </v-card>
               <v-card :color="showProducts ? 'accent' : 'accent lighten-1'" v-else>
-                <v-card-title class="headline white--text">Popular products found while scraping</v-card-title>
+                <v-card-title class="headline white--text">Popular products mentioned in r/{{subreddit}}</v-card-title>
                 <v-card-text v-if="showProducts">
                   <v-card flat>
                     <v-card-text>
