@@ -21,7 +21,7 @@ $ aws s3 cp ./dist s3://bucket --recursive
 ```
 
 ``` bash
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; sudo apt-get install -y nodejs; sudo apt-get install -y build-essential; sudo apt-get install git; git clone https://github.com/gbradthompson/subreddit-relation-network.git; cd "subreddit-subreddit-relation-network/" ; npm install;
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; sudo apt-get install -y nodejs; sudo apt-get install -y build-essential; sudo apt-get install git; git clone https://github.com/gbradthompson/subreddit-relation-network.git; cd "./subreddit-relation-network"; npm install;
 
 screen
 npm run generate
