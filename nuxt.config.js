@@ -10,7 +10,7 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Find new subreddits related to the ones you already like.' },
-      { hid: 'og:description', property: 'og:description', content: `Find new subreddits related to the ones you already like.` },
+      { hid: 'og:description', property: 'og:description', content: `Find new subreddits similar to the ones you already like.` },
       { hid: 'og:title', property: 'og:title', content: `Find new subreddits - reddit.guide` },
       { hid: 'og:url', property: 'og:url', content: `https://reddit.guide/` },
       { hid: 'og:type', property: 'og:type', content: `website` },

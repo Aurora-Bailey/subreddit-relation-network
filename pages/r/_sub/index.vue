@@ -143,7 +143,7 @@
   export default {
     head () {
       return {
-        title: `r/${this.subreddit} - reddit.guide`,
+        title: `Subreddits similar to r/${this.subreddit} - reddit.guide`,
         meta: [
           { hid: 'description', name: 'description', content: `Find more subreddits like r/${this.subreddit}` },
           { hid: 'og:description', property: 'og:description', content: `Find more subreddits like r/${this.subreddit}` },
