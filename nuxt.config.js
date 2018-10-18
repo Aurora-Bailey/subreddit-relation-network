@@ -48,7 +48,7 @@ module.exports = {
           return !subreddit.includes(':')
         }).map((subreddit) => {
           return '/r/' + subreddit
-        })
+        }).slice(0, 100)
       })
     }
   },
@@ -67,7 +67,7 @@ module.exports = {
             return !subreddit.includes(':')
           }).map((subreddit) => {
             return {url: '/r/' + subreddit, changfreq: 'monthly', lastmodISO: new Date(Date.now()).toISOString() }
-          })
+          }).slice(0, 100)
         })
       }
   },
