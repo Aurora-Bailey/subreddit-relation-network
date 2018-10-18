@@ -20,13 +20,13 @@
         <v-toolbar-title v-text="title" class="ml-3 mr-3 grey--text text--darken-3"></v-toolbar-title>
       </nuxt-link>
       <v-spacer class="hidden-sm-and-up"></v-spacer>
-      <v-select :items="subredditList" v-model="selectSubreddit" label="search" class="hidden-xs-only ml-4 mr-4" autocomplete flat solo-inverted prepend-icon="search"></v-select>
+      <v-autocomplete :items="subredditList" v-model="selectSubreddit" label="search" class="hidden-xs-only ml-4 mr-4" flat solo-inverted prepend-icon="search"></v-autocomplete>
       <v-btn class="hidden-sm-and-up" @click="searching = true" icon><v-icon>search</v-icon></v-btn>
     </v-toolbar>
     <!-- mobile search bar -->
     <v-toolbar v-if="searching" fixed app>
       <!-- <v-text-field flat solo-inverted append-icon="close" :append-icon-cb="() => {searching = false}" label="find subreddit" class="ml-2 mr-2"></v-text-field> -->
-      <v-select :items="subredditList" v-model="selectSubreddit" label="search" class="ml-2 mr-2" autocomplete flat solo-inverted append-icon="close" :append-icon-cb="() => {searching = false}"></v-select>
+      <v-autocomplete :items="subredditList" v-model="selectSubreddit" label="search" class="ml-2 mr-2" flat solo-inverted append-icon="close" :append-icon-cb="() => {searching = false}"></v-autocomplete>
     </v-toolbar>
     <!-- main content -->
     <v-content>
