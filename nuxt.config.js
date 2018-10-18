@@ -28,7 +28,8 @@ module.exports = {
     { src: '~/plugins/localStorage.js', ssr: false }
   ],
   modules: [
-    ['@nuxtjs/google-analytics', { id: 'UA-119546324-1' }]
+    ['@nuxtjs/google-analytics', { id: 'UA-119546324-1' }],
+    '@nuxtjs/sitemap'
   ],
   css: [
     '~/assets/style/app.styl'
