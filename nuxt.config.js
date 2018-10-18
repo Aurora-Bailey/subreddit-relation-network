@@ -60,6 +60,7 @@ module.exports = {
       path: '/sitemap.xml',
       hostname: 'https://reddit.guide',
       generate: true, // Enable me when using nuxt generate
+      gzip: false,
       routes: function () {
         return axios.get('https://reddit.guide/index/subreddit_list.json')
         .then((res) => {
