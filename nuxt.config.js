@@ -55,22 +55,22 @@ module.exports = {
   /*
   ** Generate sitemap
   */
-  sitemap: {
-      path: '/sitemap.xml',
-      hostname: 'https://reddit.guide',
-      generate: true, // Enable me when using nuxt generate
-      gzip: true
-      routes: function () {
-        return axios.get('https://reddit.guide/index/subreddit_list.json')
-        .then((res) => {
-          return res.data.list.filter(subreddit => {
-            return !subreddit.includes(':')
-          }).map((subreddit) => {
-            return {url: '/r/' + subreddit, changfreq: 'monthly', lastmodISO: new Date(Date.now()).toISOString() }
-          })
-        })
-      }
-  },
+  // sitemap: {
+  //     path: '/sitemap.xml',
+  //     hostname: 'https://reddit.guide',
+  //     generate: true, // Enable me when using nuxt generate
+  //     gzip: true
+  //     routes: function () {
+  //       return axios.get('https://reddit.guide/index/subreddit_list.json')
+  //       .then((res) => {
+  //         return res.data.list.filter(subreddit => {
+  //           return !subreddit.includes(':')
+  //         }).map((subreddit) => {
+  //           return {url: '/r/' + subreddit, changfreq: 'monthly', lastmodISO: new Date(Date.now()).toISOString() }
+  //         })
+  //       })
+  //     }
+  // },
   /*
   ** Disable prefetch and preload.
   */
