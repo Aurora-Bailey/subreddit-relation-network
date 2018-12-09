@@ -89,7 +89,7 @@
                 <v-card-text v-if="showProducts">
                   <v-card flat>
                     <v-card-text>
-                      <b>{{sub.t_count}}</b> redditors mentioned <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide-20'">- {{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a>
+                      <b>{{sub.t_count}}</b> redditors mentioned <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide00-20'">- {{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a>
                       <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-single-ad.html?asins=' + sub.asin"></iframe>
                       <div v-if="showComments">
                         <div class="subheader">Top comment:</div>
