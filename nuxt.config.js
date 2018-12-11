@@ -29,7 +29,6 @@ module.exports = {
   ],
   modules: [
     ['@nuxtjs/google-analytics', { id: 'UA-119546324-1' }],
-    ['@nuxtjs/google-adsense', { id: 'ca-pub-6345772193890046', pageLevelAds: true, analyticsUacct: 'UA-119546324-1', analyticsDomainName: 'reddit.guide' }],
     '@nuxtjs/sitemap'
   ],
   css: [

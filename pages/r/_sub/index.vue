@@ -37,15 +37,6 @@
         <v-container pa-2>
           <v-layout row wrap align-center justify-center>
             <v-flex xs12 sm11 md11 lg10 xl8>
-              <adsbygoogle />
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex mb-1>
-        <v-container pa-2>
-          <v-layout row wrap align-center justify-center>
-            <v-flex xs12 sm11 md11 lg10 xl8>
               <v-radio-group v-model="sortSubreddits" label="sort by" row>
                 <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
                 <v-radio color="secondary" label="small specific" value="child"></v-radio>
