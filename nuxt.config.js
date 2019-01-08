@@ -67,7 +67,7 @@ module.exports = {
           return res.data.list.filter(subreddit => {
             return !subreddit.includes(':')
           }).map((subreddit) => {
-            return {url: '/r/' + subreddit, changfreq: 'monthly', lastmodISO: new Date(Date.now()).toISOString() }
+            return {url: '/r/' + subreddit + '/', changfreq: 'monthly', lastmodISO: new Date(Date.now()).toISOString() }
           })
         })
       }
