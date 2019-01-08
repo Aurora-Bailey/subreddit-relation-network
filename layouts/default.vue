@@ -36,7 +36,9 @@
     <v-footer height="auto" inset absolute app>
       <v-card flat tile color="secondary"class="white--text text-xs-center" width="100%">
         <v-card-text class="white--text pa-4">
-          &copy;{{year}} <strong>{{title}}</strong>
+          copyright &copy; {{year}} <strong>{{title}}</strong>
+          <br>
+          <a class="white--text" target="_blank" href="https://privacypolicies.com/privacy/view/38881e6d379d4991e400176dbaa87f46">privacy policy</a>
         </v-card-text>
       </v-card>
     </v-footer>
