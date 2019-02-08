@@ -41,7 +41,7 @@
                 <!-- <v-radio color="primary" label="This subreddit => Other subreddit" value="parent"></v-radio> -->
                 <v-radio color="secondary" label="small specific" value="child"></v-radio>
                 <v-radio color="primary" label="large general" value="combined"></v-radio>
-                <v-radio color="accent" label="only products" value="ads"></v-radio>
+                <!-- <v-radio color="accent" label="only products" value="ads"></v-radio> -->
               </v-radio-group>
             </v-flex>
           </v-layout>
@@ -83,38 +83,6 @@
                     </div>
                   </div>
                 </v-card-text>
-              </v-card>
-              <v-card :color="showProducts ? 'accent' : 'accent lighten-1'" v-else>
-                <v-card-title class="headline white--text">Popular products mentioned in r/{{subreddit}}</v-card-title>
-                <v-card-text v-if="showProducts">
-                  <v-card flat>
-                    <v-card-text>
-                      <b>{{sub.t_count}}</b> redditors mentioned <a rel="noopener nofollow" target="_blank" :href="'https://www.amazon.com/dp/' + sub.asin + '?tag=redditguide00-20'">- {{sub.name.replace(/-/g, ' ')}}<v-icon small color="primary">launch</v-icon></a>
-                      <iframe frameBorder="0" height="166px" width="100%" :src="'/amazon-native-shopping-single-ad.html?asins=' + sub.asin"></iframe>
-                      <div v-if="showComments">
-                        <div class="subheader">Top comment:</div>
-                        <blockquote class="reddit-html blockquote quote--smaller grey lighten-4">
-                          <span v-html="killLink(sub.comment)"></span>
-                          <footer>
-                            <small>
-                              <em>&mdash;u/{{sub.author}}</em><br>
-                              <em>{{(new Date(sub.created * 1000)).toLocaleDateString()}}</em><br>
-                              <!-- <em>Score {{sub.score}}</em><br> -->
-                              <a rel="noopener nofollow" target="_blank" :href="sub.link">See comment on r/{{subreddit}}</a>
-                            </small>
-                          </footer>
-                        </blockquote>
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-card-text>
-                <v-card-actions>
-                  <a href="javascript:void(0)" class="white--text pl-3 text--soften" @click="showProducts = !showProducts" v-if="showProducts">Don't show me popular products!</a>
-                  <a href="javascript:void(0)" class="white--text pl-3 text--soften" @click="showProducts = !showProducts" v-if="!showProducts">I've changed my mind, you can show them to me.</a>
-                  <v-spacer></v-spacer>
-                  <a href="javascript:void(0)" class="white--text pr-3 text--soften" @click="showComments = !showComments" v-if="showComments && showProducts">Hide the comments!</a>
-                  <a href="javascript:void(0)" class="white--text pr-3 text--soften" @click="showComments = !showComments" v-if="!showComments && showProducts">Show the comments.</a>
-                </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>
@@ -252,33 +220,6 @@
             if (a.rank_combined === b.rank_combined) return 0
             return a.rank_combined < b.rank_combined ? -1 : 1
           })
-        }
-
-        // bake in ads
-        if (typeof this.products !== 'undefined') {
-          if (this.sortSubreddits === 'ads') {
-            // replace
-            arr = []
-            for (let i = 0; i < this.products.asin.length; i++) {
-              let objectifyProducts = {}
-              Object.keys(this.products).forEach(key => {
-                objectifyProducts[key] = this.products[key][i]
-              })
-
-              arr.push(objectifyProducts)
-            }
-          } else {
-            // salt
-            for (let i = this.products.asin.length - 1; i >= 0; i--) {
-              let spot = this.ad_every_x * i + this.ad_every_x
-              let objectifyProducts = {}
-              Object.keys(this.products).forEach(key => {
-                objectifyProducts[key] = this.products[key][i]
-              })
-
-              arr.splice(spot, 0, objectifyProducts)
-            }
-          }
         }
 
         return arr
