@@ -57,12 +57,12 @@ pm2
 ```
 sudo npm install pm2 -g
 pm2 startup
-pm2 start npm --name "app" -- start
+pm2 start pm2_ecosystem.json
 pm2 restart app
 ```
 Setup nginx
 ```
-sudo apt install nginx
+sudo apt install nginx -y
 sudo rm /etc/nginx/sites-available/default
 sudo vim /etc/nginx/sites-available/default
 
