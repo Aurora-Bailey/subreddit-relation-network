@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name": "app",
+    "script": "./node_modules/nuxt/bin/nuxt",
+    "args": "start",
+    "node_args": "--max-old-space-size=8192"
+  }]
+}
